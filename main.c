@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:40:17 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/07 21:47:42 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/09 16:36:53 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void handle_fractal(t_all *all, char *f_name)
 	// all->min_y = -1.5;
 	// all->max_y = 1.5; //(all->max_x - all->min_x) * (all->win_h / all->win_w) - all->min_y;
 	julia(all);
+	// burningship(all);
 	// mandelbrot(all);
 	mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
 	// mlx_hook(all->win, KeyPress, KeyPressMask, ft_key_press, all);

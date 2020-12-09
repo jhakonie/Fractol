@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 20:29:17 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/08 00:08:27 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/09 16:37:10 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void julia(t_all *all)
 	all->max_x = 1.0;
 	all->min_y = -1.5;
 	all->max_y = 1.5;
-	c.x = -0.7; // + all->min_x + all->ptr_x * (all->max_x - all->min_x)/(all->win_w - 1.0);
-	c.y = 0.27015;// + all->max_y - all->ptr_y * (all->max_y - all->min_y)/(all->win_h - 1.0);
+	c.x = -0.7 + all->min_x + all->ptr_x * (all->max_x - all->min_x)/(all->win_w - 1.0);
+	c.y = 0.27015 + all->max_y - all->ptr_y * (all->max_y - all->min_y)/(all->win_h - 1.0);
 	while (y < all->win_h - 1)
 	{
 		x = 0;
@@ -34,7 +34,7 @@ void julia(t_all *all)
 		{
 			i = 1;
 			z.x = all->min_x + x * (all->max_x - all->min_x) / (all->win_w - 1.0);
-			i = iterations_julia(z, c);
+			i = iterations_julia(z, c, all->f_name);
 			color(x, y, i, all);
 			x++;
 		}

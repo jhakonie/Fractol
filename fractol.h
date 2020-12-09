@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:41:40 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/07 22:37:21 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/08 00:31:14 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int				mouse_move(int x, int y, t_all *all);
 void			julia(t_all *all);
 void			mandelbrot(t_all *all);
 void			color(int x, int y, int i, t_all *all);
-int				iterations_julia(t_complex z, t_complex c);
+int				iterations_julia(t_complex z, t_complex c, char *name);
 void			fractal(t_all *all, int x, int y);
+void			burningship(t_all *all);
 
 #endif
