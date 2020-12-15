@@ -6,12 +6,12 @@
 #    By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 18:17:31 by jhakonie          #+#    #+#              #
-#    Updated: 2020/12/01 23:59:36 by jhakonie         ###   ########.fr        #
+#    Updated: 2020/12/12 21:55:01 by jhakonie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-SRCS = main.c error.c key_events.c julia.c mouse_events.c mandelbrot.c algorithm.c \
+SRCS = main.c error.c key_events.c mouse_events.c fractals.c algorithm.c \
 color.c
 
 NAME = fractol
@@ -41,7 +41,7 @@ $(MINILIBX):
 clean: cleanlib
 	@ rm -f $(OBJS)
 	@ echo "[removed fractol o-files]"
-fclean: clean 
+fclean: clean
 	@ rm -f $(NAME)
 	@ echo "[removed fractol]"
 	@ make fclean -C libft/

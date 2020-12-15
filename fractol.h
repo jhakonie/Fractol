@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:41:40 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/08 00:31:14 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/15 18:37:56 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <X11/Xlib.h>
 # include <pthread.h>
 
+# define NUM_THREADS 8
 # define ESC 65307
 # define RIGHT 65363
 # define LEFT 65361
@@ -32,7 +33,11 @@
 # define C 99
 # define ARG 0
 
-
+typedef struct	s_thread
+{
+	int			tid;
+	double		stuff;
+}				t_thread;
 
 typedef struct	s_all
 {
@@ -40,36 +45,49 @@ typedef struct	s_all
 	void		*mlx;
 	void		*img;
 	int			*pic;
+	int			*win_count;
+	int			win_id;
 	float		max_y;
 	float		min_y;
 	float		max_x;
 	float		min_x;
+	int			max_i;
 	float		scale_x;
 	float		scale_y;
 	float		move_x;
 	float		move_y;
 	float		ptr_x;
 	float		ptr_y;
+	void		(*f)(void *);
 	float		zoom;
 	int			base_color;
 	float		extra;
 	int			bpp;
-	int			size_l;	
+	int			size_l;
 	int			endian;
 	char		*f_name;
 	float		x;
 	float		y;
-	int			win_h;
-	int			win_w;
+	float		win_h;
+	float		win_w;
 }				t_all;
+
+//
+typedef struct	s_change
+{
+	t_all		one;
+	t_all		two;
+}				t_change;
 
 void			error(int error);
 int				key_press(int k, t_all *all);
 int				mouse_move(int x, int y, t_all *all);
+int				events(t_all *all);
+int				end(t_all *all);
 void			julia(t_all *all);
 void			mandelbrot(t_all *all);
 void			color(int x, int y, int i, t_all *all);
-int				iterations_julia(t_complex z, t_complex c, char *name);
+int				iterations_julia(t_complex z, t_complex c, char *name, int max_i);
 void			fractal(t_all *all, int x, int y);
 void			burningship(t_all *all);
 
