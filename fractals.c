@@ -3,92 +3,145 @@
 /*                                                        :::      ::::::::   */
 /*   fractals.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: johku <johku@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:00:28 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/13 20:05:09 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/31 01:24:30 by johku            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void burningship(t_all *all)
+/*
+** Function for iteration: |z|^2 + c, z0 = 0
+*/
+
+int burningship(int x, int y, t_all *all)
 {
+	int i;
+	double n;
 	t_complex z;
 	t_complex c;
-	int i;
-	int x;
-	int y;
-
-	y = 0;
+	double xtemp;
+	
+	i = 0;
 	z.x = 0;
 	z.y = 0;
-	while (y < all->win_h - 1)
+	init_complex(&c, x, y, all);
+	c.x -= 0.5;
+	c.y -= 0.5;
+	while (i < all->max_i)
 	{
-		x = 0;
-		c.y = c.y = all->max_y - all->scale_y * y  * all->zoom - (all->move_y + all->scale_y * (all->ptr_y - all->ptr_y * all->zoom));
-		while (x < all->win_w - 1)
-		{
-			c.x = all->min_x + all->scale_x * x * all->zoom + (all->move_x - 0.5 + all->scale_x * (all->ptr_x - all->ptr_x * all->zoom));
-			i = iterations_julia(z, c, all->f_name, all->max_i);
-			color(x, y, i, all);
-			x++;
-		}
-		y++;
+		xtemp = z.x * z.x - z.y * z.y + c.x;
+		z.y = fabs(2 * z.x * z.y) + c.y;
+		z.x = xtemp;
+		n = z.x * z.x + z.y * z.y;
+		if (n > 4)
+			break;
+		i++;
 	}
+	return (i);
 }
 
-void mandelbrot(t_all *all)
+/*
+** Function for iteration: z^2 + c, z0 = 0
+*/
+
+int mandelbrot(int x, int y, t_all *all)
 {
+	int i;
+	double n;
 	t_complex z;
 	t_complex c;
-	int i;
-	float x;
-	float y;
 
-	y = 0;
+	i = 0;
 	z.x = 0;
 	z.y = 0;
-	while (y < all->win_h - 1)
+	init_complex(&c, x, y, all);
+	c.x -= 0.5;
+	while (i < all->max_i)
 	{
-		x = 0;
-		c.y = all->max_y - all->scale_y * y  * all->zoom - (all->move_y + all->scale_y * (all->ptr_y - all->ptr_y * all->zoom));
-		// c.y = all->max_y - all->scale_y * (y + (all->ptr_y - all->ptr_y * all->zoom)) * all->zoom - (all->move_y);
-		while (x < all->win_w - 1)
-		{
-			c.x = all->min_x + all->scale_x * x * all->zoom + (all->move_x - 0.5 + all->scale_x * (all->ptr_x - all->ptr_x * all->zoom));
-			// c.x = all->min_x + all->scale_x * (x + (all->ptr_x - all->ptr_x * all->zoom)) * all->zoom + (all->move_x - 0.5);
-			i = iterations_julia(z, c, all->f_name, all->max_i);
-			color(x, y, i, all);
-			x++;
-		}
-		y++;
+		z = ft_c_add(ft_c_sqred(z), c);
+		n = z.x * z.x + z.y * z.y;
+		if (n > 4)
+			break;
+		i++;
 	}
+	return (i);
 }
 
-void julia(t_all *all)
+/*
+** Function for iteration: z^3 - z^2 + z - c
+*/
+
+int multijulia(int x, int y, t_all *all)
 {
 	t_complex z;
 	t_complex c;
 	int i;
-	int x;
-	int y;
+	float n;
 
-	y = 0;
-	c.x =  all->min_x + all->ptr_x * all->scale_x;
-	c.y =  all->max_y - all->ptr_y * all->scale_y;
-	while (y < all->win_h - 1)
+	i = 0;
+	init_c(&c, all);
+	init_complex(&z, x, y, all);
+	while (i < all->max_i)
 	{
-		x = 0;
-		z.y = all->max_y - all->scale_y * y  * all->zoom - (all->move_y + all->scale_y * (all->ptr_y - all->ptr_y * all->zoom));
-		while (x < all->win_w - 1)
-		{
-			i = 1;
-			z.x = all->min_x + all->scale_x * x * all->zoom + (all->move_x + all->scale_x * (all->ptr_x - all->ptr_x * all->zoom));
-			i = iterations_julia(z, c, all->f_name, all->max_i);
-			color(x, y, i, all);
-			x++;
-		}
-		y++;
+		z = ft_c_add(ft_c_add(ft_c_minus(ft_c_multiply(z, ft_c_sqred(z)), ft_c_sqred(z)), z), c);
+		n = z.x * z.x + z.y * z.y;
+		if (n > 4)
+			break;
+		i++;
 	}
+	return (i);
+}
+
+/*
+** Function for iteration: z^2 + c
+*/
+
+int julia(int x, int y, t_all *all)
+{
+	t_complex z;
+	t_complex c;
+	int i;
+	float n;
+
+	i = 0;
+	init_c(&c, all);
+	init_complex(&z, x, y, all);
+	while (i < all->max_i)
+	{
+		z = ft_c_add(ft_c_sqred(z), c);
+		n = z.x * z.x + z.y * z.y;
+		if (n > 4)
+			break;
+		i++;
+	}
+	return (i);
+}
+
+/*
+** Function for iteration: z^3 + c, z0 = 0
+*/
+
+int tribrot(int x, int y, t_all *all)
+{
+	int i;
+	double n;
+	t_complex z;
+	t_complex c;
+
+	i = 0;
+	z.x = 0;
+	z.y = 0;
+	init_complex(&c, x, y, all);
+	while (i < all->max_i)
+	{
+		z = ft_c_add(ft_c_sqred(ft_c_sqred(z)), c);
+		n = z.x * z.x + z.y * z.y;
+		if (n > 4)
+			break;
+		i++;
+	}
+	return (i);
 }

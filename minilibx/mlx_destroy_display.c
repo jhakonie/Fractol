@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_c_add.c                                         :+:      :+:    :+:   */
+/*   mlx_destroy_display.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johku <johku@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mg <mg@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/01 22:58:43 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/19 23:12:37 by johku            ###   ########.fr       */
+/*   Created: 2020/10/03 18:56:35 by mg                #+#    #+#             */
+/*   Updated: 2020/10/04 01:55:35 by mg               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "mlx_int.h"
 
-t_complex		ft_c_add(t_complex a, t_complex b)
+int	mlx_destroy_display(t_xvar *xvar)
 {
-	t_complex	res;
-
-	res.x = a.x + b.x;
-	res.y = a.y + b.y;
-	return (res);
+	XCloseDisplay(xvar->display);
 }

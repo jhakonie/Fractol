@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_c_sqred.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: johku <johku@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 23:07:06 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/07 21:57:38 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/19 23:12:48 by johku            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_complex	ft_c_sqred(t_complex a)
+t_complex		ft_c_sqred(t_complex a)
 {
-	t_complex res;
+	t_complex	res;
 
 	res.x = a.x * a.x - a.y * a.y;
 	res.y = 2 * a.x * a.y;

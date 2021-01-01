@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: johku <johku@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/04 17:49:22 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/06 13:42:58 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/19 23:56:35 by johku            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ typedef struct		s_darray
 
 t_complex			ft_c_sqred(t_complex a);
 t_complex			ft_c_add(t_complex a, t_complex b);
+t_complex			ft_c_multiply(t_complex a, t_complex b);
+t_complex			ft_c_minus(t_complex a, t_complex b);
+t_complex			ft_c_divide(t_complex a, t_complex b);
 char				*ft_itoabase(int n, int base);
 void				ft_putstr(char const *s);
 void				ft_putchar(char c);

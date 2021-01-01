@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+         #
+#    By: johku <johku@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/05 14:13:14 by jhakonie          #+#    #+#              #
-#    Updated: 2020/12/01 23:13:40 by jhakonie         ###   ########.fr        #
+#    Updated: 2020/12/19 23:55:31 by johku            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC = ft_putstr.c ft_putchar.c ft_strlen.c ft_strcpy.c ft_strncpy.c ft_strcmp.c 
 	ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_lstnew.c \
 	ft_lstadd.c ft_lstiter.c ft_lstdelone.c ft_lstdel.c ft_lstmap.c ft_lstsize.c \
 	ft_lstlast.c ft_word_count.c ft_strndup.c ft_isspace.c ft_free2d_char.c \
-	ft_c_add.c ft_c_sqred.c
+	ft_c_add.c ft_c_sqred.c ft_c_multiply.c ft_c_minus.c ft_c_divide.c
 
 HEADER = libft.h
 
@@ -32,19 +32,18 @@ OBJECTS = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
-	@ ar rc $(NAME) $(OBJECTS)
-	@ ranLib $(NAME)
-	@ echo [libft.a compiled]
-	@ echo [libft.a organised]
-$(OBJECT): $(SRC) $(HEADER)
-	@ gcc -g -c -Wall -Wextra -Werror $(SRC)
-	@ echo "[compiled lib o-files]"	
+	@ar -c -r -s $(NAME) $(OBJECTS)
+	@echo [libft.a compiled]
+	@echo [libft.a organised]
+$(OBJECTS): $(SRC) $(HEADER)
+	@gcc -g -c -Wall -Wextra -Werror $(SRC)
+	@echo "[compiled lib o-files]"	
 clean:
-	@ rm -f $(OBJECTS)
-	@ echo "[removed lib o-files]"
+	@rm -f $(OBJECTS)
+	@echo "[removed lib o-files]"
 fclean: clean
-	@ rm -f $(NAME)
-	@ echo "[removed libft.a]"
+	@rm -f $(NAME)
+	@echo "[removed libft.a]"
 re: fclean all
 
 .SILENT: all

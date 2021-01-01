@@ -3,36 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   algorithm.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: johku <johku@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 19:01:47 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/12 22:06:28 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/31 01:23:18 by johku            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int iterations_julia(t_complex z, t_complex c, char *name, int max_i)
+void	init_complex(t_complex *z, int x, int y, t_all *all)
 {
-	int i;
-	float n;
-	float xtemp;
+	z->y = all->max_y - all->scale_y * y * all->zoom - \
+	(all->move_y + all->scale_y * (all->zoom_y - all->zoom_y * all->zoom));
+	z->x = all->min_x + all->scale_x * x * all->zoom + (all->move_x + all->scale_x \
+	* (all->zoom_x - all->zoom_x * all->zoom));
+}
 
-	i = 1;
-	while (i < max_i)
-	{
-		if (ft_strcmp("burningship", name) == 0)
-		{
-			xtemp = z.x * z.x - z.y * z.y + c.x;
-			z.y = fabs(2 *z.x * z.y) + c.y;
-			z.x = xtemp;
-		}
-		else
-			z = ft_c_add(ft_c_sqred(z), c);
-		n = z.x * z.x + z.y * z.y;
-		if (n > 4)
-			break;
-		i++;
-	}
-	return (i);
+//
+void	init_c(t_complex *c, t_all *all)
+{
+	c->x = all->min_x + all->ptr_x * all->scale_x;
+	c->y = all->max_y - all->ptr_y * all->scale_y;
 }

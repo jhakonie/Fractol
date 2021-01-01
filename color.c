@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: johku <johku@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 23:20:52 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/13 19:18:59 by jhakonie         ###   ########.fr       */
+/*   Updated: 2020/12/30 22:39:59 by johku            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 void color(int x, int y, int i, t_all *all)
 {
 	int rgb;
-	float d;
+	double d;
 
-	d = 256 / 250;
+	d = all->color_range;
+	// if (ft_strcmp(all->f_name, "newton") == 0)
+	// 	all->max_i = 400;
 	if (i < all->max_i)
 	{
 		// rgb = (65536 * i * d ) + (256 * i * d) + (i * d);
 		// + all->base_color)
-		rgb = 65536 * (90 + all->base_color) + (256 * d * 5 * i ) + (i * d);
+		rgb = 65536 * (90 + all->red) + (256 * d * 5 * i + all->green) + (i * d + all->blue);
 		all->pic[(int)x + (int)y * (int)all->win_w] = rgb;
 	}
 }
