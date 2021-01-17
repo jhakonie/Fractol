@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractals.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johku <johku@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/25 19:00:28 by jhakonie          #+#    #+#             */
-/*   Updated: 2020/12/31 01:24:30 by johku            ###   ########.fr       */
+/*   Created: 2021/01/12 14:45:24 by jhakonie          #+#    #+#             */
+/*   Updated: 2021/01/17 22:09:50 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 /*
 ** Function for iteration: |z|^2 + c, z0 = 0
+** Commonly known fractal.
 */
 
-int burningship(int x, int y, t_all *all)
+int					burningship(int x, int y, t_all *all)
 {
-	int i;
-	double n;
-	t_complex z;
-	t_complex c;
-	double xtemp;
-	
+	int				i;
+	double			n;
+	t_complex		z;
+	t_complex		c;
+	double			xtemp;
+
 	i = 0;
 	z.x = 0;
 	z.y = 0;
@@ -37,7 +38,7 @@ int burningship(int x, int y, t_all *all)
 		z.x = xtemp;
 		n = z.x * z.x + z.y * z.y;
 		if (n > 4)
-			break;
+			break ;
 		i++;
 	}
 	return (i);
@@ -45,14 +46,15 @@ int burningship(int x, int y, t_all *all)
 
 /*
 ** Function for iteration: z^2 + c, z0 = 0
+** Commonly known fractal.
 */
 
-int mandelbrot(int x, int y, t_all *all)
+int					mandelbrot(int x, int y, t_all *all)
 {
-	int i;
-	double n;
-	t_complex z;
-	t_complex c;
+	int				i;
+	double			n;
+	t_complex		z;
+	t_complex		c;
 
 	i = 0;
 	z.x = 0;
@@ -64,32 +66,35 @@ int mandelbrot(int x, int y, t_all *all)
 		z = ft_c_add(ft_c_sqred(z), c);
 		n = z.x * z.x + z.y * z.y;
 		if (n > 4)
-			break;
+			break ;
 		i++;
 	}
 	return (i);
 }
 
 /*
-** Function for iteration: z^3 - z^2 + z - c
+** Function for iteration: ((z^9 + z) + (z^2 * c)^2) / z
+** User made / variation of a commonly known fractal.
 */
 
-int multijulia(int x, int y, t_all *all)
+int					multijulia(int x, int y, t_all *all)
 {
-	t_complex z;
-	t_complex c;
-	int i;
-	float n;
+	t_complex		z;
+	t_complex		c;
+	int				i;
+	float			n;
 
 	i = 0;
 	init_c(&c, all);
 	init_complex(&z, x, y, all);
 	while (i < all->max_i)
 	{
-		z = ft_c_add(ft_c_add(ft_c_minus(ft_c_multiply(z, ft_c_sqred(z)), ft_c_sqred(z)), z), c);
+		z = ft_c_divide(ft_c_add(ft_c_add(ft_c_multiply(ft_c_sqred
+(ft_c_sqred(ft_c_sqred(ft_c_sqred(z)))), z), ft_c_sqred
+(ft_c_multiply(ft_c_sqred(z), z))), c), z);
 		n = z.x * z.x + z.y * z.y;
 		if (n > 4)
-			break;
+			break ;
 		i++;
 	}
 	return (i);
@@ -97,14 +102,15 @@ int multijulia(int x, int y, t_all *all)
 
 /*
 ** Function for iteration: z^2 + c
+** Commonly known fractal.
 */
 
-int julia(int x, int y, t_all *all)
+int					julia(int x, int y, t_all *all)
 {
-	t_complex z;
-	t_complex c;
-	int i;
-	float n;
+	t_complex		z;
+	t_complex		c;
+	int				i;
+	float			n;
 
 	i = 0;
 	init_c(&c, all);
@@ -114,7 +120,7 @@ int julia(int x, int y, t_all *all)
 		z = ft_c_add(ft_c_sqred(z), c);
 		n = z.x * z.x + z.y * z.y;
 		if (n > 4)
-			break;
+			break ;
 		i++;
 	}
 	return (i);
@@ -122,14 +128,15 @@ int julia(int x, int y, t_all *all)
 
 /*
 ** Function for iteration: z^3 + c, z0 = 0
+** variation of a commonly known fractal.
 */
 
-int tribrot(int x, int y, t_all *all)
+int					tribrot(int x, int y, t_all *all)
 {
-	int i;
-	double n;
-	t_complex z;
-	t_complex c;
+	int				i;
+	double			n;
+	t_complex		z;
+	t_complex		c;
 
 	i = 0;
 	z.x = 0;
@@ -140,7 +147,7 @@ int tribrot(int x, int y, t_all *all)
 		z = ft_c_add(ft_c_sqred(ft_c_sqred(z)), c);
 		n = z.x * z.x + z.y * z.y;
 		if (n > 4)
-			break;
+			break ;
 		i++;
 	}
 	return (i);

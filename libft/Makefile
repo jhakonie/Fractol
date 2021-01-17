@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: johku <johku@student.42.fr>                +#+  +:+       +#+         #
+#    By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/05 14:13:14 by jhakonie          #+#    #+#              #
-#    Updated: 2020/12/19 23:55:31 by johku            ###   ########.fr        #
+#    Updated: 2021/01/17 22:01:30 by jhakonie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,6 @@ all: $(NAME)
 $(NAME): $(OBJECTS)
 	@ar -c -r -s $(NAME) $(OBJECTS)
 	@echo [libft.a compiled]
-	@echo [libft.a organised]
 $(OBJECTS): $(SRC) $(HEADER)
 	@gcc -g -c -Wall -Wextra -Werror $(SRC)
 	@echo "[compiled lib o-files]"	

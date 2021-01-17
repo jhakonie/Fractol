@@ -3,22 +3,25 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: johku <johku@student.42.fr>                +#+  +:+       +#+         #
+#    By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 18:17:31 by jhakonie          #+#    #+#              #
-#    Updated: 2021/01/01 20:52:56 by johku            ###   ########.fr        #
+#    Updated: 2021/01/17 23:47:28 by jhakonie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-
-SRCS = main.c error.c key_events.c mouse_events.c fractals.c algorithm.c \
-color.c more_fractals.c instructions.c newton.c
-
 NAME = fractol
 
-HEADER = fractol.h
+SRCS = main.c error.c key_events.c mouse_events.c fractals.c init_complex.c \
+color.c more_fractals.c instructions.c newton.c events.c exit.c
 
-OBJS = $(SRCS:.c=.o)
+SRCS_DIR = srcs/
+
+OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
+
+OBJ_DIR = obj
+
+HEADER = srcs/fractol.h
 
 LIBFT = libft/libft.a
 
@@ -30,22 +33,26 @@ CFLAGS = -I minilibx/ -I /usr/local/X11/include -I libft/ -pthread
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(MINILIBX) $(HEADER)
+$(NAME): $(OBJS) $(MINILIBX) $(HEADER)
 	@ gcc -Wall -Werror -Wextra -o $(NAME) $(LDFLAGS) $(OBJS) $(LIBFT)
 	@ echo "[compiled fractol]"
-$(OBJS): $(SRCS)
-	@ gcc -g -Wall -Werror -Wextra -c $(SRCS) $(CFLAGS)
+$(OBJS): $(OBJ_DIR) $(addprefix $(SRCS_DIR)/, $(SRCS)) $(LIBFT)
+	@ gcc -g -Wall -Werror -Wextra -c $(addprefix $(SRCS_DIR)/, $(SRCS)) $(CFLAGS)
 	@ echo "[compiled fractol o-files]"
+	@ mv $(SRCS:.c=.o) $(OBJ_DIR)
 $(LIBFT):
 	@ make -C libft/
+$(OBJ_DIR):
+	@ mkdir $(OBJ_DIR)
 $(MINILIBX):
 	@ $(MAKE) -C minilibx/
-clean: cleanlib
+clean: cleanlib 
 	@ rm -f $(OBJS)
-	@ echo "[removed fractol o-files]"
+	@ if [ -d $(OBJ_DIR) ]; then rmdir -p $(OBJ_DIR); fi
+	@ echo "[removed fractol o-files and obj-dir]"
 fclean: clean
 	@ rm -f $(NAME)
-	@ echo "[removed fractol]"
+	@ echo "[removed $(NAME)]"
 	@ make fclean -C libft/
 	@ make clean -C minilibx/
 cleanlib:
