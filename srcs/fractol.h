@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:45:35 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/17 22:14:36 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/01/19 10:56:29 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <X11/Xlib.h>
 # include <pthread.h>
 
-# define NUM_THREADS 40
+# define NUM_THREADS 16
 # define ESC 65307
 # define RIGHT 65363
 # define LEFT 65361

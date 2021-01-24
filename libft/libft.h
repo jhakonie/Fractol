@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: johku <johku@student.42.fr>                +#+  +:+       +#+        */
+/*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/04 17:49:22 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/06 01:17:18 by johku            ###   ########.fr       */
+/*   Updated: 2021/01/17 23:55:01 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,6 @@ typedef struct		s_list
 	size_t			content_size;
 	struct s_list	*next;
 }					t_list;
-
-typedef struct		s_darray
-{
-	void			*content;
-	size_t			size;
-	size_t			space;
-	size_t			capacity;
-
-}					t_darray;
 
 t_complex			ft_c_sqred(t_complex a);
 t_complex			ft_c_add(t_complex a, t_complex b);

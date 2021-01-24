@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:45:51 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/13 00:56:42 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/01/19 11:08:42 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void			instructions(void *mlx, void *win, int iter, int zoom_level)
 	mlx_string_put(mlx, win, 90, 130, 0xFF00FF, zoomstr);
 	mlx_string_put(mlx, win, 20, 145, 0xFFFFFF, "zoom: Z/X & mouse scroll");
 	mlx_string_put(mlx, win, 20, 160, 0xFFFFFF,
-	"zoom aid ptr-follow on/off: mouse 1");
+	"follow mouse on/off: mouse 1");
 	more_instructions(mlx, win);
 	free(zoomstr);
 	free(iterstr);
