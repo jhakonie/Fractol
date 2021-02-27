@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:45:59 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/17 22:10:15 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/02/27 22:28:17 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void			zoom(int k, t_all *all)
 {
-	mlx_mouse_get_pos(all->mlx, all->win, &all->zoom_x, &all->zoom_y);
 	if (k == Z)
 	{
 		all->zoom *= 0.95;
@@ -114,11 +113,7 @@ static void			auto_motion(int k, t_all *all)
 int					key_press(int k, t_all *all)
 {
 	if (k == ESC)
-	{
-		if (end(all) == 2)
-			exit(0);
-		return (0);
-	}
+		exit(0);
 	if (k == A || k == S || k == E || k == UP || k == DOWN || k == RIGHT
 	|| k == LEFT || k == Z || k == X)
 		key_action(k, all);
@@ -129,7 +124,5 @@ int					key_press(int k, t_all *all)
 		auto_motion(k, all);
 	if (k == O)
 		reset(all);
-	if (all->win_count > 1 && all->win_id == 2)
-		events(all);
 	return (0);
 }

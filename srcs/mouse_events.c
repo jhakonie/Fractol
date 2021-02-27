@@ -6,13 +6,13 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:46:35 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/17 22:08:24 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/02/27 19:38:21 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int		mouse_move(int x, int y, t_all *all)
+int		mouse_move(t_all *all, int x, int y)
 {
 	if (all->change == 0)
 	{
@@ -25,30 +25,20 @@ int		mouse_move(int x, int y, t_all *all)
 		all->zoom_x = x;
 		all->zoom_y = y;
 	}
-	if (all->win_count > 1 && all->win_id == 2)
-		events(all);
 	return (0);
 }
 
-int		mouse_press(int button, int x, int y, t_all *all)
+int		mouse_press(t_all *all, int x, int y)
 {
 	static int i;
 
 	i++;
-	if (button == 1 && (i == 1 || i % 2 != 0))
-	{
+	x = 1;
+	y = 1;
+	if ((i == 1 || (i > 1 && i % 2 != 0)))
 		all->ptr_update = 1;
-		x = 1;
-		y = 1;
-	}
-	if (button == 1 && (i > 1 && i % 2 == 0))
+	if ((i > 1 && i % 2 == 0))
 		all->ptr_update = 0;
-	if (button == 5)
-		key_press(Z, all);
-	if (button == 4)
-		key_press(X, all);
 	all->changes = 1;
-	if (all->win_count > 1 && all->win_id == 2)
-		events(all);
 	return (0);
 }

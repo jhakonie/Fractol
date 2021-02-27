@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:45:07 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/12 15:04:26 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/02/27 22:35:59 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void		threads(t_all *all)
 	pthread_exit(NULL);
 }
 
-static void		create_threads(t_all *all)
+static void		create_and_join_threads(t_all *all)
 {
 	pthread_t	thr[NUM_THREADS];
 	t_all		thread[NUM_THREADS];
@@ -48,7 +48,7 @@ static void		create_threads(t_all *all)
 		thread[i].thr_height = (all->win_h - 1.0) / NUM_THREADS * (i + 1);
 		if ((rc = pthread_create(&thr[i], NULL, (void *(*)(void *))threads,
 		(void *)&thread[i])))
-			error(THR, &thread[i]);
+			error(THR);
 		i++;
 	}
 	i = 0;
@@ -90,13 +90,8 @@ int				events(t_all *all)
 {
 	if (all->changes == 1)
 	{
-		ft_memset(all->pic, 0, all->win_h * all->win_w * 4);
-		create_threads(all);
-		if (all->win != NULL)
-		{
-			mlx_put_image_to_window(all->mlx, all->win, all->img, 0, 0);
-			instructions(all->mlx, all->win, all->max_i, all->zoom_level);
-		}
+		wx_buffer_set(all->frame_buffer.data, all->frame_buffer.data_size, 0);
+		create_and_join_threads(all);
 		all->changes = 0;
 	}
 	if (all->color_loop == 1)

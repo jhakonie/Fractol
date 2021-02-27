@@ -6,22 +6,21 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:45:35 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/19 10:56:29 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/02/27 19:52:29 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
-# include "../minilibx/mlx.h"
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include "SDL2/SDL.h"
 # include "../libft/libft.h"
-# include <X11/Xlib.h>
 # include <pthread.h>
 
 # define NUM_THREADS 16
-# define ESC 65307
+# define ESC SDLK_ESCAPE
 # define RIGHT 65363
 # define LEFT 65361
 # define UP 65364
@@ -48,68 +47,90 @@
 # define THR 1
 # define WRONG_ARG 2
 
+enum	e_bool
+{
+	wx_false = 0,
+	wx_true = 1
+};
+typedef enum e_bool	t_bool;
+
+typedef float				t_f32;
+typedef int					t_s32;
+typedef unsigned char		t_u8;
+typedef unsigned int		t_u32;
+typedef unsigned long int	t_u64;
+
+struct	s_frame_buffer
+{
+	unsigned char	*data;
+	long			data_size;
+	unsigned int	width;
+	unsigned int	height;
+};
+typedef struct s_frame_buffer	t_frame_buffer;
+
 typedef struct	s_all
 {
-	void		*win;
-	void		*mlx;
-	void		*img;
-	int			*pic;
-	int			bpp;
-	int			size_l;
-	int			endian;
-	int			win_count;
-	int			win_id;
-	int			(*f)(int, int, void *);
-	char		*f_name;
-	int			win_h;
-	int			win_w;
-	double		max_y;
-	double		min_y;
-	double		max_x;
-	double		min_x;
-	int			max_i;
-	double		scale_x;
-	double		scale_y;
-	int			thr_height;
-	int			y;
-	int			change;
-	int			changes;
-	int			ptr_update;
-	double		move_x;
-	double		move_y;
-	double		ptr_x;
-	double		ptr_y;
-	int			zoom_x;
-	int			zoom_y;
-	double		zoom;
-	long		zoom_level;
-	long		plus;
-	long		minus;
-	int			motion;
-	int			sparkle;
-	float		sparkle_pace;
-	int			color_range;
-	int			color_loop;
-	int			red;
-	int			green;
-	int			blue;
-}				t_all;
+	SDL_Event		event;
+	SDL_Window		*window;
+	SDL_Texture		*texture;
+	SDL_Renderer	*renderer;
+	t_frame_buffer	frame_buffer;
+	t_bool			quit;
+	int				bpp;
+	int				size_l;
+	int				endian;
+	int				(*f)(int, int, void *);
+	char			*f_name;
+	int				win_h;
+	int				win_w;
+	double			max_y;
+	double			min_y;
+	double			max_x;
+	double			min_x;
+	int				max_i;
+	double			scale_x;
+	double			scale_y;
+	int				thr_height;
+	int				y;
+	int				change;
+	int				changes;
+	int				ptr_update;
+	double			move_x;
+	double			move_y;
+	double			ptr_x;
+	double			ptr_y;
+	int				zoom_x;
+	int				zoom_y;
+	double			zoom;
+	long			zoom_level;
+	long			plus;
+	long			minus;
+	int				motion;
+	int				sparkle;
+	float			sparkle_pace;
+	int				color_range;
+	int				color_loop;
+	int				red;
+	int				green;
+	int				blue;
+}					t_all;
 
 typedef struct	s_thread
 {
 	t_all		*all;
 }				t_thread;
 
-void			error(int error, t_all *all);
+void			error(int error);
 int				key_press(int k, t_all *all);
-int				mouse_move(int x, int y, t_all *all);
-int				mouse_press(int button, int x, int y, t_all *all);
+int				mouse_move(t_all *all, int x, int y);
+int				mouse_press(t_all *all, int x, int y);
 int				events(t_all *all);
 int				end(t_all *all);
 void			reset(t_all *all);
 void			color(int x, int y, int i, t_all *all);
 void			instructions(void *mlx, void *win, int iter, int zoom_level);
-void			start_fractal(t_all *all, char *f_name);
+// void			start_fractal(t_all *all, char *f_name);
 void			init_complex(t_complex *z, int x, int y, t_all *all);
 void			init_c(t_complex *c, t_all *all);
 int				mandelbrot(int x, int y, t_all *all);
@@ -122,5 +143,10 @@ int				mandala(int x, int y, t_all *all);
 int				flower(int x, int y, t_all *all);
 int				triangle(int x, int y, t_all *all);
 int				snowflake(int x, int y, t_all *all);
+t_bool			wx_frame_buffer_new(t_frame_buffer *fb, t_u32 image_width,
+					t_u32 image_height);
+void			wx_frame_buffer_del(t_frame_buffer *fb);
+void			wx_buffer_copy(void *xs, void const *ys, t_u64 size);
+void			wx_buffer_set(void *xs, t_u64 xs_size, t_u8 x);
 
 #endif

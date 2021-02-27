@@ -6,21 +6,11 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:45:17 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/12 15:12:44 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/02/27 22:27:48 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-int			end(t_all *all)
-{
-	if (all->win_count < 2)
-		exit(0);
-	mlx_destroy_window(all->mlx, all->win);
-	all->win = NULL;
-	all->win_id = 0;
-	return (0);
-}
 
 void		reset(t_all *all)
 {

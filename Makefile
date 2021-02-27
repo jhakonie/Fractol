@@ -6,58 +6,67 @@
 #    By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 18:17:31 by jhakonie          #+#    #+#              #
-#    Updated: 2021/01/18 12:55:18 by jhakonie         ###   ########.fr        #
+#    Updated: 2021/02/27 22:31:49 by jhakonie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 
 SRCS = main.c error.c key_events.c mouse_events.c fractals.c init_complex.c \
-color.c more_fractals.c instructions.c newton.c events.c exit.c
+color.c more_fractals.c newton.c events.c exit.c wx_frame_buffer.c \
+
 
 SRCS_DIR = srcs/
 
-OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
-
-OBJ_DIR = obj
+OBJS = $(addprefix $(build_dir), $(SRCS:.c=.o))
 
 HEADER = srcs/fractol.h
 
 LIBFT = libft/libft.a
 
-MINILIBX = minilibx/libmlx.a
+build_dir = build/
 
-LDFLAGS = -L minilibx/ -l mlx -L /usr/X11/lib -l X11 -l Xext -framework OpenGL -framework AppKit
+libsdl2_makefile = libsdl2/Makefile
+libsdl2_lib = $(build_dir)libsdl2/lib/libSDL2.a
+libsdl2_cflags = `$(build_dir)libsdl2/bin/sdl2-config --cflags`
+libsdl2_ldflags = `$(build_dir)libsdl2/bin/sdl2-config --libs`
 
-CFLAGS = -I minilibx/ -I /usr/local/X11/include -I libft/ -pthread
+LDFLAGS = $(libsdl2_ldflags) -fsanitize=address
+
+CFLAGS = -c -I libft/ -pthread $(libsdl2_cflags) -I build/libsdl2/include -fsanitize=address
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(MINILIBX) $(HEADER)
+$(NAME): $(OBJS) $(libsdl2_lib) $(HEADER)
 	@ gcc -Wall -Werror -Wextra -o $(NAME) $(LDFLAGS) $(OBJS) $(LIBFT)
 	@ echo "[compiled fractol]"
 
-$(OBJS): $(OBJ_DIR) $(addprefix $(SRCS_DIR)/, $(SRCS)) $(LIBFT)
-	@ gcc -g -Wall -Werror -Wextra -c $(addprefix $(SRCS_DIR)/, $(SRCS)) $(CFLAGS)
+$(OBJS): $(build_dir) $(libsdl2_lib) $(LIBFT) $(addprefix $(SRCS_DIR), $(SRCS))
+	@ gcc -g -Wall -Werror -Wextra $(CFLAGS) $(addprefix $(SRCS_DIR), $(SRCS)) 
 	@ echo "[compiled fractol o-files]"
-	@ mv $(SRCS:.c=.o) $(OBJ_DIR)
+	@ mv $(SRCS:.c=.o) $(build_dir)
 
 $(LIBFT):
 	@ make -C libft/
 
-$(OBJ_DIR):
-	@ mkdir $(OBJ_DIR)
+$(build_dir):
+	@ mkdir $(build_dir)
 
-$(MINILIBX):
-	@ $(MAKE) -C minilibx/
+$(libsdl2_makefile):
+	cd libsdl2 && ./configure --prefix=$(abspath $(build_dir)libsdl2) --disable-shared --disable-video-wayland
+	$(MAKE) --directory=libsdl2
+
+$(libsdl2_lib): $(libsdl2_makefile) | $(build_dir)
+	$(MAKE) --directory=libsdl2 install
 
 clean:
 	@ rm -f $(OBJS)
-	@ if [ -d $(OBJ_DIR) ]; then rmdir -p $(OBJ_DIR); fi
 	@ echo "[removed fractol o-files and obj-dir]"
 
-fclean: clean cleanminilibx fcleanlib
+fclean: clean fcleanlib
 	@ rm -f $(NAME)
+	if test -f $(libsdl2_makefile); then $(MAKE) AUTOMAKE=: --directory=libsdl2 distclean; fi
+	rm -rf $(build_dir)
 	@ echo "[removed $(NAME)]"
 
 cleanlib:
@@ -66,9 +75,6 @@ cleanlib:
 fcleanlib:
 	@ make fclean -C libft/
 
-cleanminilibx:
-	@ make clean -C minilibx/
-
 re: fclean all
 
-.PHONY: clean fclean cleanlib fcleanlib cleanminilibx re all
+.PHONY: clean fclean cleanlib fcleanlib re all
