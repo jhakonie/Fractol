@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:46:35 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/17 22:08:24 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/02/25 21:23:14 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int		mouse_press(int button, int x, int y, t_all *all)
 	static int i;
 
 	i++;
+	x = 1;
+	y = 1;
 	if (button == 1 && (i == 1 || i % 2 != 0))
 	{
 		all->ptr_update = 1;
-		x = 1;
-		y = 1;
 	}
 	if (button == 1 && (i > 1 && i % 2 == 0))
 		all->ptr_update = 0;

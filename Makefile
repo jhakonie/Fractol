@@ -6,7 +6,7 @@
 #    By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 18:17:31 by jhakonie          #+#    #+#              #
-#    Updated: 2021/01/18 12:55:18 by jhakonie         ###   ########.fr        #
+#    Updated: 2021/02/25 21:08:28 by jhakonie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,9 +27,9 @@ LIBFT = libft/libft.a
 
 MINILIBX = minilibx/libmlx.a
 
-LDFLAGS = -L minilibx/ -l mlx -L /usr/X11/lib -l X11 -l Xext -framework OpenGL -framework AppKit
+LDFLAGS = -L minilibx/ -l mlx -L /usr/X11/lib -l X11 -l Xext -framework OpenGL -framework AppKit -fsanitize=address
 
-CFLAGS = -I minilibx/ -I /usr/local/X11/include -I libft/ -pthread
+CFLAGS = -I minilibx/ -I /usr/local/X11/include -I libft/ -pthread -fsanitize=address
 
 all: $(NAME)
 
@@ -37,7 +37,7 @@ $(NAME): $(OBJS) $(MINILIBX) $(HEADER)
 	@ gcc -Wall -Werror -Wextra -o $(NAME) $(LDFLAGS) $(OBJS) $(LIBFT)
 	@ echo "[compiled fractol]"
 
-$(OBJS): $(OBJ_DIR) $(addprefix $(SRCS_DIR)/, $(SRCS)) $(LIBFT)
+$(OBJS): $(OBJ_DIR) $(LIBFT) $(addprefix $(SRCS_DIR)/, $(SRCS))
 	@ gcc -g -Wall -Werror -Wextra -c $(addprefix $(SRCS_DIR)/, $(SRCS)) $(CFLAGS)
 	@ echo "[compiled fractol o-files]"
 	@ mv $(SRCS:.c=.o) $(OBJ_DIR)

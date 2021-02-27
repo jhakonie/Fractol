@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:46:10 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/01/18 00:12:17 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/02/26 19:58:00 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void		init_fractal(t_all *all, char *f_name)
 {
-	all->f_name = f_name;
 	all->win_h = 750;
 	all->win_w = 1000;
 	all->max_i = 50;
@@ -32,6 +31,7 @@ static void		init_fractal(t_all *all, char *f_name)
 	all->pic = (int *)mlx_get_data_addr(all->img, &all->bpp, &all->size_l,
 	&all->endian);
 	all->changes = 1;
+	all->ptr_update = 0;
 	if (all->win_id == 2)
 		events(all);
 }
