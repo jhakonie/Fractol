@@ -6,7 +6,7 @@
 #    By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/29 18:17:31 by jhakonie          #+#    #+#              #
-#    Updated: 2021/02/27 22:31:49 by jhakonie         ###   ########.fr        #
+#    Updated: 2021/02/28 01:19:46 by jhakonie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,18 +31,20 @@ libsdl2_lib = $(build_dir)libsdl2/lib/libSDL2.a
 libsdl2_cflags = `$(build_dir)libsdl2/bin/sdl2-config --cflags`
 libsdl2_ldflags = `$(build_dir)libsdl2/bin/sdl2-config --libs`
 
-LDFLAGS = $(libsdl2_ldflags) -fsanitize=address
+LDFLAGS = $(libsdl2_ldflags)
 
-CFLAGS = -c -I libft/ -pthread $(libsdl2_cflags) -I build/libsdl2/include -fsanitize=address
+CFLAGS = -c -I libft/ -pthread $(libsdl2_cflags) -I build/libsdl2/include
 
 all: $(NAME)
 
 $(NAME): $(OBJS) $(libsdl2_lib) $(HEADER)
-	@ gcc -Wall -Werror -Wextra -o $(NAME) $(LDFLAGS) $(OBJS) $(LIBFT)
+	# @ gcc -Wall -Werror -Wextra $(OBJS) -o $(NAME) $(LDFLAGS) $(LIBFT)
+	@ gcc $(OBJS) -o $(NAME) $(LDFLAGS) $(LIBFT)
 	@ echo "[compiled fractol]"
 
 $(OBJS): $(build_dir) $(libsdl2_lib) $(LIBFT) $(addprefix $(SRCS_DIR), $(SRCS))
-	@ gcc -g -Wall -Werror -Wextra $(CFLAGS) $(addprefix $(SRCS_DIR), $(SRCS)) 
+	# @ gcc -g -Wall -Werror -Wextra $(CFLAGS) $(addprefix $(SRCS_DIR), $(SRCS)) -lm
+	@ gcc $(CFLAGS) $(addprefix $(SRCS_DIR), $(SRCS)) -lm
 	@ echo "[compiled fractol o-files]"
 	@ mv $(SRCS:.c=.o) $(build_dir)
 
