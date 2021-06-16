@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:46:10 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/02/27 23:08:39 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/06/15 23:07:12 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	delete_all(t_all *a)
 {
 	free(a->frame_buffer.data);
+	Mix_FreeMusic(a->music);
+	Mix_FreeChunk(a->effect);
 	SDL_DestroyTexture(a->texture);
 	SDL_DestroyRenderer(a->renderer);
 	SDL_DestroyWindow(a->window);
@@ -95,9 +97,10 @@ static t_bool	start(char **av, t_all *a)
 {
 	ft_bzero(a, sizeof(t_all));
 	start_fractal(a, av[1]);
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		return (zz_on_error(a, 0));
-	if (!(a->window = SDL_CreateWindow("wolf3d_editor", SDL_WINDOWPOS_UNDEFINED,
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+	// if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO < 0))
+	// 	return (zz_on_error(a, 0));
+	if (!(a->window = SDL_CreateWindow("fractol", SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED, a->win_w, a->win_h\
 		, 0)))
 		return (zz_on_error(a, 1));
@@ -122,6 +125,7 @@ static t_bool	zz_wait_event(t_all *e)
 		}
 		else if (e->event.type == SDL_KEYDOWN)
 		{
+			Mix_PlayChannel(1, e->effect, 0);
 			if (e->event.key.keysym.sym == SDLK_ESCAPE)
 				return (wx_true);
 			key_press(e->event.key.keysym.sym, e);
@@ -142,6 +146,13 @@ static t_bool	run_fractal(t_all *a)
 	int			*texture_data;
 	t_s32		texture_pitch;
 
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	// Mix_Init(MIX_INIT_FLAC);
+	// a->music = Mix_LoadMUS("stepdirt_1.wav");
+	if (!(a->music = Mix_LoadMUS("Error Management.wav")))
+		printf("error");
+	a->effect = Mix_LoadWAV("stepdirt_1.wav");
+	Mix_PlayMusic(a->music, -1);
 	while (!a->quit)
 	{
 		if (a->changes)

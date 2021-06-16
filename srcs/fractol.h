@@ -6,7 +6,7 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:45:35 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/02/27 19:52:29 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/06/15 17:44:26 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "SDL2/SDL.h"
 # include "../libft/libft.h"
 # include <pthread.h>
+# include "SDL_mixer.h"
 
 # define NUM_THREADS 16
 # define ESC SDLK_ESCAPE
@@ -76,6 +77,8 @@ typedef struct	s_all
 	SDL_Texture		*texture;
 	SDL_Renderer	*renderer;
 	t_frame_buffer	frame_buffer;
+	Mix_Chunk		*effect;
+	Mix_Music		*music;
 	t_bool			quit;
 	int				bpp;
 	int				size_l;

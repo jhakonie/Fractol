@@ -6,13 +6,13 @@
 /*   By: jhakonie <jhakonie@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 14:45:07 by jhakonie          #+#    #+#             */
-/*   Updated: 2021/02/27 22:35:59 by jhakonie         ###   ########.fr       */
+/*   Updated: 2021/02/28 04:48:20 by jhakonie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void		threads(t_all *all)
+static void		*threads(t_all *all)
 {
 	int i;
 	int x;
